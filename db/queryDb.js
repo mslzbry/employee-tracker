@@ -1,6 +1,8 @@
 const prompt = require('../index.js')
 const connection = require('../config/connection')
 const table = require('console.table')
+const inquirer = require('inquirer')
+const { validateString, validateSalary } = require('../validate.js')
 
 const queryDb = response => {
   switch (response.options) {
@@ -63,6 +65,27 @@ const viewAllDepartments = () => {
 // ======================= ADD ===================================
 
 // Add a new department
-const addDepartment = () => {}
+const addDepartment = () => {
+  inquirer
+    .prompt([
+      {
+        name: 'department',
+        type: 'input',
+        message: 'Enter name of new department:',
+        validate: validateString
+      }
+    ])
+    .then(response => {
+      const sql = 'INSERT INTO department (department_name) VALUES (?)'
+      connection.query(sql, response.department, (error, response) => {
+        if (error) {
+          throw error
+        } else {
+          console.log(`${response.department} Department successfully created!`)
+          viewAllDepartments()
+        }
+      })
+    })
+}
 
 module.exports = queryDb
