@@ -1,10 +1,6 @@
 const inquirer = require('inquirer')
-
 const logo = require('asciiart-logo')
-
 const queryDb = require('./db/queryDb')
-
-// , add a department, add a role, add an employee, and update an employee role
 
 const question = [
   {
@@ -15,16 +11,10 @@ const question = [
       'View All Departments',
       'View All Roles',
       'View All Employees',
-      /*"View Employees By Manager",
-            "View Employees By Department",*/
       'Add Department',
       'Add Role',
       'Add Employee',
       'Update Employee Role',
-      /*"Update Employee Manager",
-            "Delete Department", 
-            "Delete Role",
-            "Delete Employee",*/
       'Quit'
     ]
   }
@@ -42,7 +32,6 @@ const init = () => {
       name: 'Employee Tracker'
     }).render()
   )
-
   promptUser()
 }
 
