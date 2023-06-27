@@ -1,20 +1,5 @@
 const mysql = require('mysql2')
-const fs = require('fs')
 require('dotenv').config()
-
-const schemaQuery = fs.readFileSync(
-  require('path').resolve(__dirname, '../db/schema.sql'),
-  {
-    encoding: 'utf-8'
-  }
-)
-
-const seedQuery = fs.readFileSync(
-  require('path').resolve(__dirname, '../db/seeds.sql'),
-  {
-    encoding: 'utf-8'
-  }
-)
 
 const connection = mysql.createConnection(
   {
@@ -27,27 +12,4 @@ const connection = mysql.createConnection(
   console.log('Connected to the employees database.')
 )
 
-const buildSchemaQuery = connection => {
-  console.log('schemaaa')
-  connection.query(schemaQuery, err => {
-    if (err) {
-      console.log(err)
-      throw err
-    }
-
-    console.log('SQL initial schema query completed')
-  })
-}
-
-const runSeedQuery = connection => {
-  console.log('weee')
-  connection.query(seedQuery, err => {
-    if (err) {
-      console.log(err)
-      throw err
-    }
-
-    console.log('SQL seed query completed')
-  })
-}
-module.exports = { connection, runSeedQuery, buildSchemaQuery }
+module.exports = connection

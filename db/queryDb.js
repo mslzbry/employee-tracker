@@ -1,17 +1,8 @@
 const prompt = require('../index.js')
-const {
-  connection,
-  runSeedQuery,
-  buildSchemaQuery
-} = require('../config/connection')
+const connection = require('../config/connection')
 const table = require('console.table')
 
-//buildSchemaQuery(connection)
-//runSeedQuery(connection)
-
 const queryDb = response => {
-  console.log('response', response)
-  console.log(response)
   switch (response.options) {
     case 'View All Departments':
       viewAllDepartments()
