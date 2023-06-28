@@ -175,8 +175,6 @@ const addEmployee = () => {
         id: person.id
       })
     })
-
-    console.log(managers)
   })
 
   let roles = []
