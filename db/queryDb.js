@@ -182,60 +182,60 @@ const addEmployee = () => {
     results.forEach(role => {
       roles.push({ name: role.title, id: role.id })
     })
-
-    inquirer
-      .prompt([
-        {
-          type: 'input',
-          name: 'firstName',
-          message: "Enter employee's first name:"
-        },
-        {
-          type: 'input',
-          name: 'lastName',
-          message: "Enter employee's last name:"
-        },
-        {
-          type: 'list',
-          name: 'role',
-          message: "Select employee's role:",
-          choices: roles
-        },
-        {
-          type: 'list',
-          name: 'manager',
-          message: "Select employee's manager:",
-          choices: managers
-        }
-      ])
-      .then(input => {
-        let roleId = -1
-        roles.forEach(role => {
-          if (input.role == role.name) {
-            roleId = role.id
-          }
-        })
-        let mgrId = -1
-        managers.forEach(mgr => {
-          if (input.manager == mgr.name) {
-            mgrId = mgr.id
-          }
-        })
-
-        console.log([input.firstName, input.lastName, roleId, mgrId])
-        const sql =
-          'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)'
-        connection.query(
-          sql,
-          [input.firstName, input.lastName, roleId, mgrId],
-          error => {
-            if (error) throw error
-            console.log('Employee has been added!')
-            viewEmployees()
-          }
-        )
-      })
   })
+
+  inquirer
+    .prompt([
+      {
+        type: 'input',
+        name: 'firstName',
+        message: "Enter employee's first name:"
+      },
+      {
+        type: 'input',
+        name: 'lastName',
+        message: "Enter employee's last name:"
+      },
+      {
+        type: 'list',
+        name: 'role',
+        message: "Select employee's role:",
+        choices: roles
+      },
+      {
+        type: 'list',
+        name: 'manager',
+        message: "Select employee's manager:",
+        choices: managers
+      }
+    ])
+    .then(input => {
+      let roleId = -1
+      roles.forEach(role => {
+        if (input.role == role.name) {
+          roleId = role.id
+        }
+      })
+      let mgrId = -1
+      managers.forEach(mgr => {
+        if (input.manager == mgr.name) {
+          mgrId = mgr.id
+        }
+      })
+
+      console.log([input.firstName, input.lastName, roleId, mgrId])
+      const sql =
+        'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)'
+      connection.query(
+        sql,
+        [input.firstName, input.lastName, roleId, mgrId],
+        error => {
+          if (error) throw error
+          console.log('Employee has been added!')
+          viewEmployees()
+        }
+      )
+    })
 }
 
 // Update employee role
@@ -296,11 +296,6 @@ const updateEmployeeRole = () => {
 
 // Quit
 const quit = () => {
-  console.table(
-    logo({
-      name: 'Goodbye'
-    }).render()
-  )
   process.exit()
 }
 module.exports = queryDb
