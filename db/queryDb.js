@@ -30,9 +30,9 @@ const queryDb = response => {
     case 'Add Employee':
       addEmployee()
       break
-    // case 'Update Employee Role':
-    //   selectEmployeeToUpdate()
-    //   break
+    case 'Update Employee Role':
+      updateEmployeeRole()
+      break
     // case 'Update Employee Manager':
     //   selectManager()
     //   break
@@ -45,9 +45,9 @@ const queryDb = response => {
     // case 'Delete Employee':
     //   getEmployeesToDelete()
     //   break
-    // case 'Quit':
-    //   quit()
-    //   break
+    case 'Quit':
+      quit()
+      break
   }
 }
 
@@ -238,5 +238,71 @@ const addEmployee = () => {
         )
       })
   })
+}
+
+// Update employee role
+const updateEmployeeRole = () => {
+  let employees = []
+  connection.query('SELECT * FROM employee', function (err, results) {
+    results.forEach(person => {
+      employees.push({
+        name: person.first_name + ' ' + person.last_name,
+        id: person.id
+      })
+    })
+
+    let roles = []
+    connection.query('SELECT title, id FROM role', function (err, results) {
+      results.forEach(role => {
+        roles.push({ name: role.title, id: role.id })
+      })
+
+      console.log('employees', employees)
+      console.log('roles', roles)
+      inquirer
+        .prompt([
+          {
+            type: 'list',
+            name: 'employee',
+            message: 'Select an employee to update the role:',
+            choices: employees
+          },
+          {
+            type: 'list',
+            name: 'role',
+            message: "Select employee's new role:",
+            choices: roles
+          }
+        ])
+        .then(input => {
+          let firstName = input.employee.split(' ')[0]
+          let lastName = input.employee.split(' ')[1]
+          connection.query(
+            'UPDATE employee SET role_id = (SELECT r.id FROM role r WHERE r.title = ?) WHERE employee.first_name = ? AND employee.last_name = ?;',
+            [input.role, firstName, lastName],
+            function (err, results) {
+              if (err) {
+                console.log(err)
+              } else {
+                console.log(
+                  'Employee with new role has been successfully updated.'
+                )
+                viewEmployees()
+              }
+            }
+          )
+        })
+    })
+  })
+}
+
+// Quit
+const quit = () => {
+  console.table(
+    logo({
+      name: 'Goodbye'
+    }).render()
+  )
+  process.exit()
 }
 module.exports = queryDb
