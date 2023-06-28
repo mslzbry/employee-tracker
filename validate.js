@@ -7,7 +7,7 @@ const validateString = s => {
 }
 
 const validateSalary = n => {
-  return validator.isDecimal(num) || 'Please enter a valid salary'
+  return !isNaN(n) || 'Please enter a valid salary'
 }
 
 module.exports = { validateString, validateSalary }
