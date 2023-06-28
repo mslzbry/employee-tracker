@@ -31,6 +31,7 @@ To run this app, navigate to the project root. To pre-poluate the database with 
 After the db is populated, then you can use the tool by running `npm run start`.
 
 To see a walkthrough video of this, please view this Google Drive link:
+https://drive.google.com/file/d/18FOMqT2TiX0thD7Mci2Q6a_Ip7xaT0cT/view?usp=sharing
 
 ## Contributing
 
